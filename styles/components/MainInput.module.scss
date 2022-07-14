@@ -1,0 +1,48 @@
+@mixin floating-placeholder {
+  transition: all 300ms;
+  font-size: 10px;
+  top: 9px;
+}
+.form {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  .mainInput {
+    color: #1d1d1f;
+    border-color: #d2d2d7;
+    padding: 16px 0 8px 16px;
+    font-size: 15px;
+    width: 100%;
+    max-width: 360px;
+    height: 3rem;
+    border-radius: 12px;
+    border-width: 1px;
+    border-style: solid;
+    transition: all 300ms;
+    &:focus {
+      padding-top: 24px;
+      ~ .placeholder {
+        @include floating-placeholder;
+      }
+    }
+    &.entered {
+      padding-top: 24px;
+      ~ .placeholder {
+        @include floating-placeholder;
+      }
+    }
+  }
+  .placeholder {
+    position: absolute;
+    left: 32px;
+    top: 15px;
+    pointer-events: none;
+    color: #6e6e73;
+    transition-timing-function: ease-in;
+    transition-duration: 200ms;
+  }
+}
+
+.greeting {
+  text-align: center;
+}
