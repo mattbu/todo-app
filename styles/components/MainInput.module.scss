@@ -44,5 +44,11 @@
 }
 
 .greeting {
+  opacity: 1;
+  transition: all 300ms;
   text-align: center;
+  &.show {
+    opacity: 1;
+    transition: all 300ms;
+  }
 }
