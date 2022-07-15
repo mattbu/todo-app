@@ -1,0 +1,18 @@
+.nav {
+  background-color: #fff;
+  padding: 16px;
+  &Container {
+    background-color: #f6f8fa;
+    border-radius: 0.5rem;
+    padding: 20px;
+    a {
+      padding: 8px 12px;
+      margin: 0 4px;
+    }
+    .active {
+      background-color: #0071e3;
+      color: #fff;
+      border-radius: 0.5rem;
+    }
+  }
+}

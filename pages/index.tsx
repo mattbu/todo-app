@@ -1,19 +1,19 @@
-import styles from "../styles/Home.module.scss";
-import MainInput from "../components/MainInput";
-import Clock from "../components/Clock";
 import { GetServerSideProps } from "next";
-import {wrapper} from "../store";
+import { wrapper } from "../store";
 
-const Home = () => {
+import styles from "../styles/Home.module.scss";
+
+import Seo from "../components/Seo";
+import ToDoList from "../components/ToDoList";
+
+export default function Home() {
   return (
     <div className={styles.container}>
-      <Clock />
-      <MainInput />
+      <Seo title={'ToDo'}></Seo>
+      <ToDoList />
     </div>
   );
 };
-
-export default Home
 
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(store => async ({ req, res, ...etc }) => {
   store.getState().user

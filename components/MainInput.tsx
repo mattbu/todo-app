@@ -5,8 +5,9 @@ import { RootState } from "../store";
 import styles from "../styles/components/MainInput.module.scss";
 import { setUserName } from "../slices/userSlice";
 import { useDispatch } from "react-redux";
+import { persistor } from "../store";
 
-const MainInput = () => {
+export default function MainInput() {
   const dispatch = useDispatch()
 
   const [name, setName] = useState("");
@@ -16,20 +17,33 @@ const MainInput = () => {
     setName(e.target.value);
   };
 
-  const currentUser = useSelector<RootState, UserState>(state => state.user)  
+  const currentUser = useSelector<RootState, UserState>(state => state.user)
 
   const submitName = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(setUserName({name}))
+    dispatch(setUserName({ name }))
     setIsSubmitted(true);
   };
+
+  const exit = async () => {
+    setName('')
+    await setTimeout(() => {
+      persistor.purge()
+    }, 500)
+    await setTimeout(() => {
+      setIsSubmitted(false);
+    }, 1000)
+  }
   useEffect(() => {
-    console.log(currentUser);
+    return () => clearTimeout()
   })
   return (
-    <>
-      <h1 className={isSubmitted ? `${styles.greeting} ${styles['show']}` : `${styles.greeting}` }>안녕하세요, {currentUser.name}</h1>
-      {!isSubmitted ? (
+    <div className={styles.container}>
+      <div>
+        <h1 className={currentUser.name ? `${styles.greeting} ${styles['show']}` : `${styles.greeting} ${styles['hide']}`}>{currentUser.name ? `안녕하세요,` : '안녕히 계세요.'} {currentUser.name}</h1>
+        {currentUser.name && <button className={styles.exitBtn} onClick={exit}>나가기</button>}
+      </div>
+      {!currentUser.name && !isSubmitted ? (
         <form className={styles.form} onSubmit={submitName}>
           <input
             className={
@@ -45,8 +59,6 @@ const MainInput = () => {
         </form>
       ) : (null
       )}
-    </>
+    </div>
   );
 };
-
-export default MainInput;

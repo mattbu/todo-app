@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { PURGE } from "redux-persist";
 
 export interface UserState {
   name: string
@@ -15,8 +16,15 @@ const userSlice = createSlice({
     setUserName: (state, action: PayloadAction<UserState>) => {
       state = action.payload
       return state
-    }
-  }
+    },
+    removeUserName: (state) => {
+      state = {name: ""}
+      return state
+    } 
+  },
+  extraReducers: (builder) => {
+    builder.addCase(PURGE, () => initialState);
+}
 })
 
 export const { setUserName } = userSlice.actions

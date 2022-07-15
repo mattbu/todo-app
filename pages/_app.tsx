@@ -1,6 +1,7 @@
 import "../styles/globals.scss";
 import type { AppProps } from "next/app";
-import Head from "next/head";
+
+import Layout from "../components/Layout";
 
 import {wrapper, store} from "../store";
 import { persistor } from "../store";
@@ -10,12 +11,10 @@ import {Provider} from 'react-redux'
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
-       <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>ToDo</title>
-      </Head>
       <PersistGate persistor={persistor} loading={null}>
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
       </PersistGate>
     </Provider>
   );

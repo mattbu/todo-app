@@ -37,26 +37,6 @@ export const wrapper = createWrapper<Store>(makeStore, {
   debug: true
 })
 
-
-
-// const makeStore = () => {
-//   const store = configureStore({
-//     reducer: persistedReducer,
-//     middleware: [
-//       ...getDefaultMiddleware({
-//         serializableCheck: {
-//           ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER, HYDRATE]
-//         }
-//       })
-//     ]
-//   })
-//   return store
-// }
-
-// export const store = makeStore()
-
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, Action<string>>
-
-// export default wrapper
