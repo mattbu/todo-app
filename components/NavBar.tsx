@@ -3,7 +3,7 @@ import { useRouter } from "next/router"
 import styles from '../styles/components/NavBar.module.scss'
 
 import Clock from "./Clock"
-import MainInput from "./MainInput"
+import Greeting from "./Greeting"
 
 export default function NavBar() {
   const { pathname } = useRouter()
@@ -21,7 +21,7 @@ export default function NavBar() {
         </div>
       </nav>
       <Clock />
-      <MainInput />
+      <Greeting />
     </>
   )
 }

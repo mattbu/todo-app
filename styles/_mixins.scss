@@ -1,0 +1,5 @@
+@mixin default-container($default-padding-side) {
+  background-color: #fff;
+  min-height: 100vh;
+  padding: $default-padding-side;
+}

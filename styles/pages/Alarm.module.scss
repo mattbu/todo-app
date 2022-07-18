@@ -1,0 +1,5 @@
+@import "../_mixins.scss";
+
+.container {
+  @include default-container(16px);
+}

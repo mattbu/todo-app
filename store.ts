@@ -6,13 +6,14 @@ import { createWrapper, MakeStore, HYDRATE } from 'next-redux-wrapper'
 import logger from 'redux-logger'
 
 import user from './slices/userSlice'
+import todos from './slices/toDoSlice'
 
 const persistConfig = {
-  key: 'user',
+  key: 'store',
   storage
 }
 
-const rootReducer = combineReducers({ user })
+const rootReducer = combineReducers({ user, todos })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
@@ -21,7 +22,7 @@ export const store = configureStore({
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       serializableCheck: {
-          ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
       }
     }).concat(logger),
   devTools: process.env.NODE_ENV !== 'production'
