@@ -12,8 +12,6 @@ const toDoSlice = createSlice({
   initialState,
   reducers: {
     addTodo: (state, action: PayloadAction<TodoState>) => {
-      console.log(state, '하하');
-
       state.push(action.payload)
       return state
     },

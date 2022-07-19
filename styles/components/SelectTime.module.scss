@@ -1,0 +1,81 @@
+@mixin drodpown($menuHeight) {
+  position: relative;
+  display: flex;
+  width: 100%;
+
+  &Toggle {
+    cursor: pointer;
+    width: 100%;
+    border: none;
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    justify-content: space-between;
+    box-shadow: 2px 4px 12px rgb(0 0 0 / 8%);
+    transition: all .3s cubic-bezier(0, 0, .5, 1);
+  }
+
+  &Menu {
+    list-style: none;
+    position: absolute;
+    z-index: 2;
+    top: calc(100% - 18px);
+    width: 175px;
+    padding: 8px;
+    max-height: 0;
+    overflow: hidden;
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    transition: border-color 200ms ease-in,
+      max-height 200ms ease-in, box-shadow 200ms ease-in;
+
+    &.show {
+      padding: 8px;
+      max-height: $menuHeight;
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 2px 4px 12px rgb(0 0 0 / 8%);
+      transition: all .3s cubic-bezier(0, 0, .5, 1);
+    }
+
+    &Item {
+      button {
+        cursor: pointer;
+        padding: 8px 0;
+        width: 100%;
+        background-color: transparent;
+        border: none;
+        text-align: center;
+
+        &:hover {
+          transform: scale(1.02);
+        }
+      }
+    }
+  }
+}
+
+.container {
+  display: flex;
+  margin-top: 8px;
+
+  .hourDropdown {
+    @include drodpown(400px);
+    padding-right: 4px;
+
+    &Menu {
+      left: 0;
+    }
+  }
+
+  .minuteDropdown {
+    @include drodpown(1200px);
+    padding-left: 4px;
+
+    &Menu {
+      right: 0;
+    }
+  }
+}
