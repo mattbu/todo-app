@@ -1,6 +1,19 @@
 .container {
   padding: 16px;
   background-color: #fff;
+  .nameInput {
+    opacity: 1;
+    &.show {
+      opacity: 1;
+      transition: all 300ms;
+    }
+
+    &.hide {
+      pointer-events: none;
+      opacity: 0;
+      // transition-delay: 600ms;
+    }
+  }
 
   .greeting {
     opacity: 0;
@@ -13,6 +26,7 @@
     }
 
     &.hide {
+      pointer-events: none;
       transition-delay: 600ms;
     }
   }

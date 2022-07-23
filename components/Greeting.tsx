@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, FormEvent, useEffect } from "react";
+import { useState, ChangeEvent, FormEvent, useEffect, Suspense } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { UserState } from "../slices/userSlice";
 import { RootState } from "../store";
@@ -22,8 +22,10 @@ export default function MainInput() {
 
   const submitName = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(setUserName({ name }));
-    setIsSubmitted(true);
+    if (name) {
+      dispatch(setUserName({ name }));
+      setIsSubmitted(true);
+    }
   };
 
   const exit = async () => {
@@ -33,7 +35,7 @@ export default function MainInput() {
     }, 500);
     await setTimeout(() => {
       setIsSubmitted(false);
-    }, 1000);
+    }, 1500);
   };
   useEffect(() => {
     return () => clearTimeout();
@@ -48,7 +50,7 @@ export default function MainInput() {
               : `${styles.greeting} ${styles["hide"]}`
           }
         >
-          {currentUser.name ? `안녕하세요,` : "안녕히 계세요."}{" "}
+          {currentUser.name ? `안녕하세요,` : "안녕히 가세요."}{" "}
           {currentUser.name}
         </h1>
         {currentUser.name && (
@@ -58,7 +60,7 @@ export default function MainInput() {
         )}
       </div>
       {!currentUser.name && !isSubmitted ? (
-        <div>
+        <div className={styles.nameInput}>
           <CustomInput
             submit={submitName}
             inputValue={name}
