@@ -12,7 +12,6 @@ export default function MainInput() {
   const dispatch = useDispatch();
 
   const [name, setName] = useState("");
-  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const changeName = (e: ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -23,8 +22,10 @@ export default function MainInput() {
   const submitName = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (name) {
-      dispatch(setUserName({ name }));
-      setIsSubmitted(true);
+      setTimeout(() => {
+        dispatch(setUserName({ name, isSubmitted: true }));
+      }, 500);
+      setName("");
     }
   };
 
@@ -32,17 +33,14 @@ export default function MainInput() {
     setName("");
     await setTimeout(() => {
       persistor.purge();
-    }, 500);
-    await setTimeout(() => {
-      setIsSubmitted(false);
-    }, 1500);
+    }, 1000);
   };
   useEffect(() => {
     return () => clearTimeout();
   });
   return (
     <div className={styles.container}>
-      <div>
+      {/* <div>
         <h1
           className={
             currentUser.name
@@ -58,8 +56,9 @@ export default function MainInput() {
             나가기
           </button>
         )}
-      </div>
-      {!currentUser.name && !isSubmitted ? (
+      </div> */}
+
+      {!currentUser.isSubmitted ? (
         <div className={styles.nameInput}>
           <CustomInput
             submit={submitName}
@@ -68,7 +67,20 @@ export default function MainInput() {
             placeholder="당신은 누구십니까?"
           />
         </div>
-      ) : null}
+      ) : (
+        <div>
+          <h1
+            className={
+              currentUser.name
+                ? `${styles.greeting} ${styles["show"]}`
+                : `${styles.greeting} ${styles["hide"]}`
+            }
+          >
+            {currentUser.name ? `안녕하세요,` : "안녕히 가세요."}{" "}
+            {currentUser.name}
+          </h1>
+        </div>
+      )}
     </div>
   );
 }

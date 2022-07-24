@@ -18,7 +18,6 @@ export default function CustomInput({
   isTodo,
 }: Props) {
   const { asPath } = useRouter();
-  console.log(asPath);
 
   return (
     <>

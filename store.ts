@@ -1,43 +1,66 @@
-import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
+import storage from "redux-persist/lib/storage";
 
-import { Action, AnyAction, combineReducers, configureStore, EnhancedStore, Store, ThunkAction } from '@reduxjs/toolkit'
-import { createWrapper, MakeStore, HYDRATE } from 'next-redux-wrapper'
-import logger from 'redux-logger'
+import {
+  Action,
+  AnyAction,
+  combineReducers,
+  configureStore,
+  EnhancedStore,
+  Store,
+  ThunkAction,
+} from "@reduxjs/toolkit";
+import { createWrapper, MakeStore, HYDRATE } from "next-redux-wrapper";
+import logger from "redux-logger";
 
-import user from './slices/userSlice'
-import todos from './slices/toDoSlice'
+import user from "./slices/userSlice";
+import todos from "./slices/toDoSlice";
+import time from "./slices/timeSlice";
 
 const persistConfig = {
-  key: 'store',
-  storage
-}
+  key: "store",
+  storage,
+};
 
-const rootReducer = combineReducers({ user, todos })
+const rootReducer = combineReducers({ user, todos, time });
 
-const persistedReducer = persistReducer(persistConfig, rootReducer)
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
   reducer: persistedReducer,
-  middleware: getDefaultMiddleware =>
+  middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
-      }
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
     }).concat(logger),
-  devTools: process.env.NODE_ENV !== 'production'
-})
+  devTools: process.env.NODE_ENV !== "production",
+});
 
-const setupStore = (context: any): EnhancedStore => store
+const setupStore = (context: any): EnhancedStore => store;
 
-const makeStore: MakeStore<any> = (context) => setupStore(context)
+const makeStore: MakeStore<any> = (context) => setupStore(context);
 
-export const persistor = persistStore(store)
+export const persistor = persistStore(store);
 
 export const wrapper = createWrapper<Store>(makeStore, {
-  debug: true
-})
+  debug: true,
+});
 
-export type RootState = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
-export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, Action<string>>
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+export type AppThunk<ReturnType = void> = ThunkAction<
+  ReturnType,
+  RootState,
+  unknown,
+  Action<string>
+>;

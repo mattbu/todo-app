@@ -3,9 +3,10 @@
   padding: 16px;
 
   &Container {
+    display: flex;
     background-color: #f6f8fa;
     border-radius: 0.5rem;
-    padding: 20px;
+    padding: 10px;
 
     a {
       padding: 8px 12px;
@@ -16,6 +17,16 @@
       background-color: #0071e3;
       color: #fff;
       border-radius: 0.5rem;
+    }
+    .switchBtn {
+      margin-left: auto;
+    }
+    .exitBtn {
+      margin-left: 0.75rem;
+      cursor: pointer;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
     }
   }
 }
