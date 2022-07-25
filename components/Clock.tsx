@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "../styles/components/Clock.module.scss";
-import { useSelector } from "react-redux";
-import { setTime, TimeState } from "../slices/timeSlice";
-import { RootState } from "../store";
+import { setTime } from "../slices/timeSlice";
 import { useDispatch } from "react-redux";
 
 export default function Clock() {
@@ -30,7 +28,6 @@ export default function Clock() {
     } else {
       setAMPM("AM");
     }
-    console.log(HH, MM, AMPM);
 
     dispatch(
       setTime({
@@ -42,13 +39,14 @@ export default function Clock() {
   };
 
   useEffect(() => {
-    setInterval(() => {
+    let timer = setInterval(() => {
       updateTime();
     }, 1000);
+
     return () => {
-      clearInterval();
+      clearInterval(timer);
     };
-  }, [SS]);
+  }, []);
 
   return (
     <div>

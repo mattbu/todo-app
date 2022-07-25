@@ -1,16 +1,24 @@
-import { Ref, useEffect, useRef, useState } from "react";
+import {
+  Dispatch,
+  Ref,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import styles from "../styles/components/CustomSelect.module.scss";
 import { ChevronDown } from "react-feather";
 
 interface Props {
   options: number[] | string[];
-  placeholder: string;
+  setAlarm?: Dispatch<SetStateAction<number | string>>;
+  name?: string;
 }
 
-export default function CustomSelect({ options, placeholder }: Props) {
+export default function CustomSelect({ options, setAlarm, name }: Props) {
   const dropdown = useRef<HTMLUListElement>(null);
 
-  const [currentSelect, setCurrentSelect] = useState<number | string>(0);
+  const [currentSelect, setCurrentSelect] = useState<number | string>("선택");
 
   const checkPropOptions = () => {
     if (Array.isArray(options)) {
@@ -22,6 +30,12 @@ export default function CustomSelect({ options, placeholder }: Props) {
       });
       if (isStringArr && options.length > 0) {
         setCurrentSelect("AM");
+      } else {
+        if (name === "hour") {
+          setCurrentSelect("시간 선택");
+        } else {
+          setCurrentSelect("분 선택");
+        }
       }
     }
   };
@@ -36,14 +50,28 @@ export default function CustomSelect({ options, placeholder }: Props) {
 
   const selectValue = (val: number | string) => {
     if (typeof val === "number") {
-      setCurrentSelect(val + 1);
+      if (name === "hour") {
+        setCurrentSelect(val + 1);
+        if (setAlarm) {
+          setAlarm(String(val + 1).padStart(2, "0"));
+        }
+      } else if (name === "minute") {
+        setCurrentSelect(val);
+        if (setAlarm) {
+          setAlarm(String(val).padStart(2, "0"));
+        }
+      }
     } else {
       setCurrentSelect(val);
+      if (setAlarm) {
+        setAlarm(val);
+      }
     }
   };
   useEffect(() => {
     checkPropOptions();
   }, []);
+
   return (
     <div className={styles.dropdown}>
       <button
@@ -51,11 +79,7 @@ export default function CustomSelect({ options, placeholder }: Props) {
         onClick={toggleDropdown}
         onBlur={blurDropdown}
       >
-        <span>
-          {typeof currentSelect === "number" && currentSelect === 0
-            ? placeholder
-            : `${currentSelect}${placeholder}`}
-        </span>
+        <span>{currentSelect}</span>
         <ChevronDown size={"16px"} />
       </button>
 
@@ -64,8 +88,8 @@ export default function CustomSelect({ options, placeholder }: Props) {
           return (
             <li key={`hour-${i}`} className={styles.dropdownMenuItem}>
               <button onClick={() => selectValue(hour)}>
-                {typeof hour === "string" ? hour : hour + 1}
-                {placeholder === "시" ? "시" : placeholder === "분" ? "분" : ""}
+                {typeof hour === "number" && name === "hour" ? hour + 1 : hour}
+                {name === "hour" ? "시" : name === "minute" ? "분" : ""}
               </button>
             </li>
           );
