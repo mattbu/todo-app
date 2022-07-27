@@ -17,6 +17,8 @@ const timeSlice = createSlice({
   initialState,
   reducers: {
     setTime: (state, action: PayloadAction<TimeState>) => {
+      // console.log(action.payload);
+
       state = action.payload;
       return state;
     },

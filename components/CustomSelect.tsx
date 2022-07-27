@@ -28,7 +28,7 @@ export default function CustomSelect({ options, setAlarm, name }: Props) {
           isStringArr = true;
         }
       });
-      if (isStringArr && options.length > 0) {
+      if (isStringArr) {
         setCurrentSelect("AM");
       } else {
         if (name === "hour") {
@@ -45,18 +45,20 @@ export default function CustomSelect({ options, setAlarm, name }: Props) {
   };
 
   const blurDropdown = () => {
-    dropdown.current?.classList.remove(styles["show"]);
+    setTimeout(() => {
+      dropdown.current?.classList.remove(styles["show"]);
+    }, 100);
   };
 
   const selectValue = (val: number | string) => {
     if (typeof val === "number") {
       if (name === "hour") {
-        setCurrentSelect(val + 1);
+        setCurrentSelect(`${val + 1}시`);
         if (setAlarm) {
           setAlarm(String(val + 1).padStart(2, "0"));
         }
       } else if (name === "minute") {
-        setCurrentSelect(val);
+        setCurrentSelect(`${val}분`);
         if (setAlarm) {
           setAlarm(String(val).padStart(2, "0"));
         }

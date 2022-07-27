@@ -12,7 +12,8 @@ export default function Clock() {
   const [SS, setSS] = useState(
     String(new Date().getSeconds()).padStart(2, "0")
   );
-  const [AMPM, setAMPM] = useState("AM");
+
+  const [AMPM, setAMPM] = useState(Number(HH) > 12 ? "PM" : "AM");
 
   const updateTime = () => {
     const today = new Date();
@@ -46,7 +47,7 @@ export default function Clock() {
     return () => {
       clearInterval(timer);
     };
-  }, []);
+  }, [SS]);
 
   return (
     <div>

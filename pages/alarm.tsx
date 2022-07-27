@@ -7,6 +7,7 @@ import { TimeState } from "../slices/timeSlice";
 import { RootState } from "../store";
 
 import CustomSelect from "../components/CustomSelect";
+// import sound from "../public/assets/mixkit-casino-win-alarm-and-coins-1990.mp3";
 
 const hourNumber = Array.from(Array(12).keys());
 const minuteNumber = Array.from(Array(60).keys());
@@ -20,7 +21,20 @@ export default function Alarm() {
   const [alarmAMPM, setAlarmAMPM] = useState<number | string>("AM");
 
   const storedTime = useSelector<RootState, TimeState>((state) => state.time);
-  const realTime = `${storedTime.hour}:${storedTime.minute} ${storedTime.ampm}`;
+
+  const calculateTime = () => {
+    let time;
+    if (Number(storedTime.hour) > 12) {
+      time = `${String(Number(storedTime.hour) - 12).padStart(2, "0")}:${
+        storedTime.minute
+      } ${storedTime.ampm}`;
+    } else {
+      time = `${storedTime.hour}:${storedTime.minute} ${storedTime.ampm}`;
+    }
+    return time;
+  };
+
+  // const realTime = calculateTime();
   const alarmTime = `${alarmHour}:${alarmMin} ${alarmAMPM}`;
 
   const toggleAlarm = () => {
@@ -28,8 +42,12 @@ export default function Alarm() {
   };
 
   useEffect(() => {
-    console.log(alarmTime, "알람시간");
-    console.log(realTime, "실제시간");
+    const realTime = calculateTime();
+    if (alarmTime === realTime) {
+      console.log("같다");
+    } else {
+      console.log("다르다");
+    }
   }, [alarmTime]);
 
   return (
