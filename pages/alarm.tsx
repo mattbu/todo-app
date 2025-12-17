@@ -1,3 +1,8 @@
+// import sound from "../public/mixkit-casino-win-alarm-and-coins-1990.mp3";
+import sound from "../public/assets/mixkit-casino-win-alarm-and-coins-1990.mp3";
+const audio: HTMLAudioElement = new Audio(sound);
+console.log(audio);
+
 import { useEffect, useState } from "react";
 import Seo from "../components/Seo";
 import styles from "../styles/pages/Alarm.module.scss";
@@ -7,7 +12,6 @@ import { TimeState } from "../slices/timeSlice";
 import { RootState } from "../store";
 
 import CustomSelect from "../components/CustomSelect";
-// import sound from "../public/assets/mixkit-casino-win-alarm-and-coins-1990.mp3";
 
 const hourNumber = Array.from(Array(12).keys());
 const minuteNumber = Array.from(Array(60).keys());
